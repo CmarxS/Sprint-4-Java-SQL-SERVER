@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Moto – Formulário')}"></head>
+<body>
+<div th:replace="~{fragments/menu :: menu('motos')}"></div>
+
+<main class="wrap">
+    <div class="card">
+        <h2 th:text="${moto.id} != null ? 'Editar Moto' : 'Nova Moto'">Nova Moto</h2>
+
+        <form th:action="${moto.id} != null ? @{|/motos/atualizar/${moto.id}|} : @{/motos}"
+              th:object="${moto}" method="post">
+
+            <div class="row">
+                <div>
+                    <label>Placa</label>
+                    <input type="text" th:field="*{placa}" placeholder="ABC1D23"/>
+                    <div class="error" th:errors="*{placa}"></div>
+                </div>
+                <div>
+                    <label>Modelo</label>
+                    <input type="text" th:field="*{modelo}" placeholder="Modelo"/>
+                    <div class="error" th:errors="*{modelo}"></div>
+                </div>
+            </div>
+
+            <div class="row single">
+                <div>
+                    <label>Status</label>
+                    <input type="text" th:field="*{status}" placeholder="No pátio / Em movimento"/>
+                    <div class="error" th:errors="*{status}"></div>
+                </div>
+            </div>
+
+            <p style="margin-top:12px">
+                <button class="btn primary" type="submit">Salvar</button>
+                <a class="btn" th:href="@{/motos}">Cancelar</a>
+            </p>
+        </form>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

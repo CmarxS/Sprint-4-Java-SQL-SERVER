@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Zona Virtual – Formulário')}"></head>
+<body>
+<div th:replace="~{fragments/menu :: menu('zonas')}"></div>
+
+<main class="wrap">
+    <div class="card">
+        <h2 th:text="${zonaVirtual.id} != null ? 'Editar Zona Virtual' : 'Nova Zona Virtual'">Nova Zona</h2>
+
+        <form th:action="${zonaVirtual.id} != null ? @{|/zonas/atualizar/${zonaVirtual.id}|} : @{/zonas}"
+              th:object="${zonaVirtual}" method="post">
+
+            <div class="row">
+                <div>
+                    <label>Nome</label>
+                    <input type="text" th:field="*{nome}" placeholder="Pátio A"/>
+                    <div class="error" th:errors="*{nome}"></div>
+                </div>
+                <div>
+                    <label>Tipo</label>
+                    <input type="text" th:field="*{tipo}" placeholder="OPERACIONAL / PÚBLICO"/>
+                </div>
+            </div>
+
+            <div class="row single">
+                <div>
+                    <label>Descrição</label>
+                    <textarea th:field="*{descricao}" rows="3" placeholder="Descrição da zona"></textarea>
+                </div>
+            </div>
+
+            <p style="margin-top:12px">
+                <button class="btn primary" type="submit">Salvar</button>
+                <a class="btn" th:href="@{/zonas}">Cancelar</a>
+            </p>
+        </form>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

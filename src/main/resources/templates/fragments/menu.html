@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body th:fragment="menu(active)">
+<header class="mm-header">
+    <div class="mm-nav">
+        <div class="mm-brand">
+            <strong>Motomap</strong>
+            <span class="mm-sub">— Monitoramento de Motos</span>
+        </div>
+
+        <nav class="mm-links">
+            <a th:href="@{/}"            th:classappend="${active}=='home' ? 'active'">Home</a>
+            <a th:href="@{/motos}"       th:classappend="${active}=='motos' ? 'active'">Motos</a>
+            <a th:href="@{/zonas}"       th:classappend="${active}=='zonas' ? 'active'">Zonas Virtuais</a>
+            <a th:href="@{/historicos}"  th:classappend="${active}=='historicos' ? 'active'">Históricos</a>
+        </nav>
+
+        <div class="mm-auth">
+      <span sec:authorize="isAnonymous()">
+        <a class="btn primary" th:href="@{/login}">Login</a>
+      </span>
+            <span sec:authorize="isAuthenticated()">
+        <span class="mm-user">Olá, <b sec:authentication="name"></b></span>
+        <form th:action="@{/logout}" method="post" class="mm-logout">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <button type="submit" class="btn outline">Logout</button>
+        </form>
+      </span>
+        </div>
+    </div>
+</header>
+</body>
+</html>

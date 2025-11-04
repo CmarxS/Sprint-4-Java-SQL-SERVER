@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: head('Históricos de Movimentação')}"></head>
+<body>
+<div th:replace="~{fragments/menu :: menu('historicos')}"></div>
+
+<main class="wrap">
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <h2>Históricos de Movimentação</h2>
+
+            <!-- Novo Registro: só ADMIN -->
+            <span sec:authorize="hasRole('ADMIN')">
+        <a class="btn primary" th:href="@{/historicos/novo}">Novo Registro</a>
+      </span>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Moto</th>
+                <th>Zona</th>
+                <th>Data/Hora</th>
+                <th>Obs.</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="h : ${historicos}">
+                <td th:text="${h.id}">1</td>
+                <td><span th:text="${h.moto != null ? h.moto.placa : '-'}">ABC1D23</span></td>
+                <td><span th:text="${h.zona != null ? h.zona.nome : '-'}">Pátio A</span></td>
+                <td th:text="${#temporals.format(h.dataHora, 'dd/MM/yyyy HH:mm')}">01/01/2025 12:00</td>
+                <td th:text="${h.observacao}">Entrada</td>
+
+                <td class="actions">
+                    <!-- Ações só ADMIN -->
+                    <span sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{|/historicos/editar/${h.id}|}">Editar</a>
+            <a th:href="@{|/historicos/excluir/${h.id}|}"
+               onclick="return confirm('Confirma excluir?')">Excluir</a>
+          </span>
+
+                    <!-- Operador vê apenas um traço -->
+                    <span sec:authorize="!hasRole('ADMIN')">-</span>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(historicos)}">
+                <td colspan="6">Nenhum registro.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

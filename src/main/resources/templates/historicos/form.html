@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Histórico – Formulário')}"></head>
+<body>
+<div th:replace="~{fragments/menu :: menu('historicos')}"></div>
+
+<main class="wrap">
+    <div class="card">
+        <h2 th:text="${historicoMovimentacao.id} != null ? 'Editar Histórico' : 'Novo Histórico'">Novo</h2>
+
+        <form th:action="${historicoMovimentacao.id} != null ? @{|/historicos/atualizar/${historicoMovimentacao.id}|} : @{/historicos}"
+              th:object="${historicoMovimentacao}" method="post">
+
+            <div class="row">
+                <div>
+                    <label>Moto</label>
+                    <select th:field="*{moto}">
+                        <option th:value="${null}">-- selecione --</option>
+                        <option th:each="m : ${motos}" th:value="${m.id}"
+                                th:text="${m.placa + ' - ' + m.modelo}"></option>
+                    </select>
+                    <div class="error" th:errors="*{moto}"></div>
+                </div>
+
+                <div>
+                    <label>Zona</label>
+                    <select th:field="*{zona}">
+                        <option th:value="${null}">-- opcional --</option>
+                        <option th:each="z : ${zonas}" th:value="${z.id}"
+                                th:text="${z.nome}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label>Data/Hora</label>
+                    <input type="datetime-local"
+                           th:field="*{dataHora}"
+                           th:value="${historicoMovimentacao.dataHora != null ? #temporals.format(historicoMovimentacao.dataHora, 'yyyy-MM-dd''T''HH:mm') : ''}">
+                </div>
+                <div>
+                    <label>Observação</label>
+                    <input type="text" th:field="*{observacao}" placeholder="Ex.: Entrada portão 1"/>
+                </div>
+            </div>
+
+            <p style="margin-top:12px">
+                <button class="btn primary" type="submit">Salvar</button>
+                <a class="btn" th:href="@{/historicos}">Cancelar</a>
+            </p>
+        </form>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

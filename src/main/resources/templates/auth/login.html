@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Login - Motomap')}"></head>
+<body>
+<div th:replace="~{fragments/menu :: menu('')}"></div>
+
+<main class="wrap">
+    <div class="card" style="max-width:480px;margin:40px auto">
+        <h2>Entrar</h2>
+        <form method="post" th:action="@{/login}">
+            <div class="row single">
+                <div>
+                    <label>E-mail</label>
+                    <input type="text" name="username" placeholder="email@exemplo.com" required/>
+                </div>
+            </div>
+            <div class="row single">
+                <div>
+                    <label>Senha</label>
+                    <input type="password" name="password" placeholder="••••••••" required/>
+                </div>
+            </div>
+            <button class="btn primary" type="submit">Entrar</button>
+            <a class="btn" th:href="@{/}">Cancelar</a>
+        </form>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
